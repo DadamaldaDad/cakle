@@ -1,0 +1,103 @@
+﻿<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap" rel="stylesheet"> 
+<style>
+.l {
+font-family: 'Roboto Mono', monospace;
+color: black
+}
+#control {
+    position: fixed;
+}
+#control2 {
+    height: 35px;
+}
+img {
+height: 30px;
+width: 30px;
+}
+</style>
+<div id="control">
+<img onclick="enter('b')" src="butter.png" id="b">
+<img onclick="enter('m')" src="milk.png" id="m">
+<img onclick="enter('w')" src="wheat.png" id="w">
+<img onclick="enter('f')" src="flour.png" id="f">
+<img onclick="enter('s')" src="sugar.png" id="s">
+<img onclick="enter('e')" src="eggs.png" id="e">
+<img onclick="enter('S')" src="strawberry.png" id="S">
+</div>
+<div id="control2"></div>
+<canvas id="canvas" width="1" height="1"></canvas>
+
+
+<script>
+var game
+var player
+var amount = 1
+var ended = false
+
+var ing = "bmwfseS".split("")
+var cake = ""
+
+var input = ""
+
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+
+const c = document.getElementById('canvas');
+const ctx = c.getContext('2d');
+
+var py = 0
+
+function enter(i) {
+input += i
+if (input.length == 5) {
+
+if (ended) {
+ctx.clearRect(0,0,c.width,c.height)
+c.width = 1
+py = 0
+cake = ""
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+cake += ing[Math.floor(Math.random()*ing.length)]
+}
+
+ended = false
+var ind = 0
+if (c.width == 1) {
+c.width = 5*30
+c.height = 6*30
+}
+var px = 0
+input.split("").forEach(function (r, index) {
+if (cake.split("")[index] == r) {
+ctx.fillStyle = "#00ff00"
+} else if (cake.split("").indexOf(r) != -1) {
+ctx.fillStyle = "#ffff00"
+} else {
+ctx.fillStyle = "#aaaaaa"
+}
+
+if (input == cake) {
+ended = true
+ctx.fillStyle = "#00ff00"
+}
+
+ctx.fillRect(px,py,30,30)
+ctx.drawImage(document.getElementById(r), px, py, 30, 30)
+
+px += 30
+})
+py += 30
+
+input = ""
+}
+}
+</script>
